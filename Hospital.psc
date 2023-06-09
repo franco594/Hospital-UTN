@@ -266,7 +266,7 @@ SubProceso buscar(datosPacientes,idPaciente)
 				
 				paciente <- i;
 				swichtBuscar <- Verdadero;
-				imprimir(datosPacientes,swichtBuscar,paciente);
+				imprimirDatos(datosPacientes,swichtBuscar,paciente);
 		
 			FinSi
 		FinPara
@@ -293,7 +293,7 @@ FinSubProceso
 
 
 
-SubProceso imprimir(datosPacientes,swichtBuscar,paciente)
+SubProceso imprimirDatos(datosPacientes,swichtBuscar,paciente)
 	Definir num_1 Como Entero;
 	
 	Limpiar Pantalla;
