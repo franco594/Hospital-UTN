@@ -172,6 +172,7 @@ SubProceso ingresar(datosPacientes Por Referencia,numeroPaciente Por Referencia 
 			// La variable (swichtDni) se establece como verdadera y se sale del ciclo Mientras
 			swichtDni <- Verdadero;
 		SiNo
+			// Sino,se solicita al usuario que ingrese un DNI válido
 			Escribir "Debe ingresar un DNI válido";
 			Escribir "Ingrese el DNI del paciente: " Sin Saltar;
 			Leer dni;
@@ -180,34 +181,46 @@ SubProceso ingresar(datosPacientes Por Referencia,numeroPaciente Por Referencia 
 		
 	FinMientras
 	
+	// Una vez que el DNI esta validado, se almacena en la séptima columna de la matriz convertida de nuevo a texto
 	datosPacientes[numeroPaciente,6] <- ConvertirATexto(dni);
 	
+	// Se le solicita al usuario que ingrese su edad
 	Escribir "Ingrese la edad del paciente: " Sin Saltar;
+	// Se almacenara la edad en la cuarta columna de la matriz
 	Leer datosPacientes[numeroPaciente,3];
 	Limpiar Pantalla;
 	
+	// Se le solicita al usuario que ingrese su tipo de sangre
 	Escribir "Ingrese tipo de sangre del paciente: " Sin Saltar;
+	// Se almacenara el tipo de sangre en la quinta columna de la matriz
 	Leer datosPacientes[numeroPaciente,4];
 	Limpiar Pantalla;
 	
 	swichtSangre <- Falso;
+	// Mientras el swicht sea falso
 	Mientras swichtSangre = Falso Hacer
-		
+		// Itera por cada elemento de larreglo tipoSangre
 		Para i <- 0 Hasta 7 Hacer
+			// Si el tipo desangre ingresada coincide con los tipos válidos almacenados en el arreglo
 			Si Minusculas(datosPacientes[numeroPaciente,4]) = tipoSangre[i] Entonces
+				// El swicht se define como Verdadero par asalir del ciclo Mientras
 				swichtSangre <- Verdadero;
 			FinSi
 		FinPara
 		
+		// Si el valor de swichtSangre no cambió, significa que el tipo de sangre no fue válido
 		Si swichtSangre = Falso Entonces
+			// Se solicita al usuario que ingrese un tipo de sangre válido
 			Escribir "Debe ingresar un tipo de sangre válido (A+, B+, AB+, 0+, A-, B-, AB-, 0-)";
 			Escribir "Ingrese tipo de sangre del paciente: " Sin Saltar;
+			// Se almacenara el tipo de sangre en la quinta columna de la matriz
 			Leer datosPacientes[numeroPaciente,4];
 			Limpiar Pantalla;
 		FinSi
 		
 	FinMientras
 	
+	// Imprime una lista con las especialidades disponibles para atenderse
 	Escribir "                 Especialidades:";
 	Escribir "1)Cardiología";
 	Escribir "2)Traumatología";
@@ -218,39 +231,46 @@ SubProceso ingresar(datosPacientes Por Referencia,numeroPaciente Por Referencia 
 	Escribir "7)Dermatología";
 	Escribir "";
 	Escribir "       Ingrese una opción: " Sin Saltar;
+	// Lee la opción ingresada en la variable (num_2)
 	Leer num_2;
 	Limpiar Pantalla;
 	
+	// Con este ciclo Mientras validaremos que se ingrese una opción válida (un número entero entre 1 y 7)
 	swichtEspecialidad <- Falso;
 	Mientras swichtEspecialidad = Falso Hacer
 		
-		
+		// Si el número ingresado se encuentra entre 1 y 7
 		Si num_2 > 0 Y num_2 < 8  Entonces
+			// Cambiamos el valor del swicht para salir del ciclo Mientras
 			swichtEspecialidad <- Verdadero;
+			// Se almacena el la especialidad elegida usando un arreglo con las epecialidades disponibles
+			// Se almacenará en la sexta columna
 			datosPacientes[numeroPaciente,5] <- especialidad[num_2 - 1];
-		FinSi
-		
-		
-		Si swichtEspecialidad = Falso Entonces
-			Escribir "Debe ingresar una opción válida";
+		// Si la opción ingresada es inválida
+		SiNo
+			// Solicita la usuario que igrese un opción válida
+ 			Escribir "Debe ingresar una opción válida";
 			Escribir "             Especialidades:";
-			Escribir "             1)Cardiología";
-			Escribir "			    2)Traumatología";
-			Escribir "			    3)Odontologia";
-			Escribir "			    4)Pediatría";
-			Escribir "			    5)Clínica";
-			Escribir "			    6)Radiología";
-			Escribir "			    7)Dermatología";
+			Escribir "1)Cardiología";
+			Escribir "2)Traumatología";
+			Escribir "3)Odontologia";
+			Escribir "4)Pediatría";
+			Escribir "5)Clínica";
+			Escribir "6)Radiología";
+			Escribir "7)Dermatología";
 			Escribir "";
 			Escribir "       Ingrese una opción: " Sin Saltar;
+			// Lee la opción ingresada en la variable (num_2)
 			Leer num_2;
 			Limpiar Pantalla;
 		FinSi
 		
 	FinMientras
 	
-	
+	// Una vez que se ingresaron todos los datos, se aumenta en uno el valor de ID de pacientes
+	// De esta forma el próximo paciente que sea ingresado tendra un número diferente
 	numeroPaciente <- numeroPaciente + 1;
+	// Se imprime en pantalla la confirmación de ingreso de paciente para el usuario
 	Limpiar Pantalla;
 	Escribir"";
 	Escribir"";
@@ -259,6 +279,8 @@ SubProceso ingresar(datosPacientes Por Referencia,numeroPaciente Por Referencia 
 	Escribir"";
 	Escribir"                           1) Volver al menú: " Sin Saltar;
 	Leer num_1;
+	
+	// Si el usuario no ingresa la opcion correcta, se vuelve a solicitar que ingrese una opción
 	Mientras num_1 <> 1 Hacer
 		Limpiar Pantalla;
 		Escribir"";
@@ -274,32 +296,43 @@ SubProceso ingresar(datosPacientes Por Referencia,numeroPaciente Por Referencia 
 FinSubProceso
 
 
-
+// Esta función permite buscar en la séptima columna de la matriz por DNI 
 SubProceso buscar(datosPacientes,idPaciente)
+	// Definimos una variable para almacenar el dni ingresado (dni)
+	// Definimos una variable (paciente) pra mantener un conteo de cuantos datos fueron contrastados
 	Definir dni,paciente Como Entero;
 	Definir i,j,num_1,num_2 como Entero;
+	// Definimos un swicht lógico 
 	Definir swichtBuscar Como Logico;
-	
+	// Se inicializa como Falso
 	swichtBuscar <- Falso;
+	// Mientras se cumpla la condición 
 	Mientras swichtBuscar = Falso Hacer
+		// Se solicita al usuario que ingrese un DNI
 		Limpiar Pantalla;
 		Escribir "Ingrese un DNI: " Sin Saltar;
+		// Se almacena el dato ingresado en una variable (dni)
 		leer dni;
 		
-		
+		// Se inicializa la variable (paciente) en cero
 		paciente <- 0;
+		// Itera por la séptima columna DNI buscando coincidencias
 		Para i <- 0 Hasta 998 Hacer
+			// Si el dni ingresado covertido a texto es igual al DNI almacenado en la fila i
 			Si datosPacientes[i,6] = ConvertirATexto(dni) Entonces
-				
+				// Se guarda el índice de la fila del paciente coincidente
 				paciente <- i;
+				//  Se cambia el swicht a Verdadero, para slair del ciclo Mientras
 				swichtBuscar <- Verdadero;
+				// Se llama a la funcion (imprimirDatos)
 				imprimirDatos(datosPacientes,swichtBuscar,paciente);
 		
 			FinSi
 		FinPara
 		
-		
+		// Si no se encontro ninguna coincidencia
 		Si swichtBuscar = Falso Entonces
+			// Se le pregunta la usuario si desea hacer otra busqueda o volver al menú principal
 			Limpiar Pantalla;
 			Escribir "No se encontró ningún paciente que concuerde con los datos ingresados";
 			Escribir "";
@@ -314,12 +347,10 @@ SubProceso buscar(datosPacientes,idPaciente)
 		Limpiar Pantalla;
 	FinMientras
 	
-	
-	
 FinSubProceso
 
 
-
+// Este subproceso imprime los datos del paciente correspondiente 
 SubProceso imprimirDatos(datosPacientes,swichtBuscar,paciente)
 	Definir num_1 Como Entero;
 	
