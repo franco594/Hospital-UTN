@@ -165,20 +165,16 @@ SubProceso ingresar(datosPacientes Por Referencia,numeroPaciente Por Referencia 
 	swichtDni <- Falso;
 	// Mientras (swichtDni) sea falso
 	Mientras swichtDni = Falso  Hacer
-		
 		// La variable (long) es igual a la longitud del DNI ingresado
 		long <- Longitud(ConvertirATexto(dni));
 		// Si el DNI ingresado tiene entre 6 y 8 dígitos
 		Si long > 5 Y long < 9  Entonces
 			// La variable (swichtDni) se establece como verdadera y se sale del ciclo Mientras
 			swichtDni <- Verdadero;
-		FinSi
-		
-		// 
-		Si swichtDni = Falso Entonces
+		SiNo
 			Escribir "Debe ingresar un DNI válido";
 			Escribir "Ingrese el DNI del paciente: " Sin Saltar;
-			Leer datosPacientes[numeroPaciente,6];
+			Leer dni;
 			Limpiar Pantalla;
 		FinSi
 		
