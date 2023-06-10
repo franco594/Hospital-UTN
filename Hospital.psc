@@ -1,22 +1,28 @@
 
-// Este subproceso imprime una interfaz y permite al usuario elegir que funcion utilizar
+// Este subproceso imprime una interfaz y permite al usuario elegir que función utilizar
 SubProceso  menu
 	// En esta variable (num_1) guardaremos el numero ingresado por el usuario
 	Definir num_1,i Como Entero;
+	// Definimos una variable (swicht) para usar como condicion de un ciclo mientras
 	Definir swicht Como Logico;
+	// Definimos una variable (numeroPaciente) qur usaremos para mantener un conteo de los pacientes ingresados
 	Definir numeroPaciente como Entero;
+	// Definimos una variable (datosPacientes), será una matriz para guardar datos del tipo Cadena
 	Definir datosPacientes como Cadena;
-	
+	// Le damos un tamaño a la matriz, las columnas representaran los tipos de datos y cada fila a un paciente
 	Dimension datosPacientes[999,7];
 	
+	// Usaremos este ciclo para limpiar cada fila de la columna "DNI"
 	Para i <- 0 Hasta 998 Hacer
 		datosPacientes[i,6] <- "";
 	FinPara
 	
+	// Inicializamos la variable (númeroPaciente) con valor cero
 	numeroPaciente <- 0;
+	// Inicializamos la variable (swicht) como Falsa
 	swicht <- Falso;
 	
-	// Mientras el usuario no ingrese la opcion terminar se imprimira el menu
+	// Mientras el usuario no ingrese la opción terminar se imprimira el menu
 	Mientras swicht = Falso Hacer
 		Escribir "";
 		Escribir "                            ****************    ";
@@ -69,8 +75,9 @@ SubProceso  menu
 FinSubProceso
 
 
-
+// El subproceso ingresar recibe la matriz de datos del paciente y el número de paciente por referencia
 SubProceso ingresar(datosPacientes Por Referencia,numeroPaciente Por Referencia )
+	
 	Definir num_1,num_2,i,long,dni,contador Como Entero;
 	Definir tipoSangre como Cadena;
 	Definir swichtSangre Como Logico;
@@ -79,6 +86,7 @@ SubProceso ingresar(datosPacientes Por Referencia,numeroPaciente Por Referencia 
 	Definir swichtDni Como Logico;
 	Definir swichtDni_2 Como Logico;
 	
+	// En el arreglo (tipoSangre) se guardaran los tips de sangre posibles
 	Dimension tipoSangre[8];
 	tipoSangre[0] <- "a+";
 	tipoSangre[1] <- "b+";
@@ -89,6 +97,7 @@ SubProceso ingresar(datosPacientes Por Referencia,numeroPaciente Por Referencia 
 	tipoSangre[6] <- "ab-";
 	tipoSangre[7] <- "0-";
 	
+	// En el arreglo (especialidad) se guardaran las especialidades disponibles
 	Dimension especialidad[7];
 	especialidad[0] <- "Cardiología";
 	especialidad[1] <- "Traumatología";
@@ -98,52 +107,74 @@ SubProceso ingresar(datosPacientes Por Referencia,numeroPaciente Por Referencia 
 	especialidad[5] <- "Radiología";
 	especialidad[6] <- "Dermatología";
 	
-
+	
 	Limpiar Pantalla;
+	// En cada fila de la primer columna se almacenará el número de ID de cada paciente ingresado
+	// Usamos la función ConvertirATexto() en nuestra entero (numeroPaciente)
 	datosPacientes[numeroPaciente,0] <- ConvertirATexto(numeroPaciente);
+	
+	// Se le solicita al usuario que ingrese su nombre
 	Escribir "Ingrese el nombre del paciente: " Sin Saltar;
+	// Se almacenara el nombre en la segunda columna
 	Leer datosPacientes[numeroPaciente,1];
 	Limpiar Pantalla;
+	
+	// Se le solicita al usuario que ingrese su apellido
 	Escribir "Ingrese el apellido del paciente: " Sin Saltar;
+	// Se almacenara el apellido en la tercer columna
 	Leer datosPacientes[numeroPaciente,2];
 	Limpiar Pantalla;
 	
+	// Se le solicita al usuario que ingrese su DNI
 	Escribir "Ingrese el DNI del paciente: " Sin Saltar;
+	// Se almacenara el DNI en una variable dni
+	// Se utilizará esta variable para comprobar que le DNI ingresado sea válido antes de guardarlo en la matriz de datos
 	Leer dni;
 	Limpiar Pantalla;
 	
+	// Luego se utiliza un ciclo mientras para verificar que se haya ingresado un DNI válido
 	contador <- 0;
 	swichtDni_2 <- Falso;
+	// Mientras (swichtDni_2) sea falso
 	Mientras swichtDni_2 = Falso Hacer
-		
+		// Itera por cada fila de la columna seis DNI 
 		Para i <- 0 Hasta 998 Hacer
+			// Si el DNI ingresado es igual al DNI almacenado en una de las filas de la columna seis DNI
 			Si ConvertirANumero(datosPacientes[i,6]) = dni Entonces
+				// Terminamos el ciclo Para
 				i <- 998;
+				// Solicitamos que se ingrese otro DNI
 				Escribir "El DNI ingresado ya esta en uso";
 				Escribir "Ingrese el DNI del paciente: " Sin Saltar;
 				Leer dni;
 				Limpiar Pantalla;
 			SiNo
+				// Si el DNI ingresado no es igual al DNI almacenado sumamos mas uno al contador
 				contador <- contador + 1;
-				
 			FinSi
 		FinPara
-		
+		// Si el DNI ingresado es distinto de todos los DNI almacenados
 		Si contador = 999 Entonces
+			// La variable (swichtDni_2) se establece como verdadera y se sale del ciclo Mientras
 			swichtDni_2 <- Verdadero;
 		FinSi
 		
 	FinMientras
 	
+	
 	swichtDni <- Falso;
+	// Mientras (swichtDni) sea falso
 	Mientras swichtDni = Falso  Hacer
 		
+		// La variable (long) es igual a la longitud del DNI ingresado
 		long <- Longitud(ConvertirATexto(dni));
+		// Si el DNI ingresado tiene entre 6 y 8 dígitos
 		Si long > 5 Y long < 9  Entonces
+			// La variable (swichtDni) se establece como verdadera y se sale del ciclo Mientras
 			swichtDni <- Verdadero;
 		FinSi
 		
-		
+		// 
 		Si swichtDni = Falso Entonces
 			Escribir "Debe ingresar un DNI válido";
 			Escribir "Ingrese el DNI del paciente: " Sin Saltar;
