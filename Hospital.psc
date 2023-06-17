@@ -55,7 +55,7 @@ SubProceso  menu
 					// Si ingresa 3
 					Si num_1 = 3 Entonces
 						// Se llama el subproceso modificar
-						modificar;
+						modificar(datosPacientes);
 					SiNo
 						Si num_1 = 4 Entonces
 							// Se llama el subproceso eliminar
@@ -386,7 +386,115 @@ FinSubProceso
 
 
 
-SubProceso modificar
+SubProceso modificar(datosPacientes Por Referencia)
+	
+	// Definimos una variable para almacenar el dni ingresado (dni)
+	// Definimos variables num para guardar los opciones ingresadas por el usuario en los menús
+	// Definimos una variable (paciente) pra mantener un conteo de cuantos datos fueron contrastados
+	Definir dni,num_1,num_2,num_3,i,paciente Como Entero;
+	
+	Definir swichtModificar Como Logico;
+	// Se inicializa como Falso
+	swichtModificar <- Falso;
+	// Mientras se cumpla la condición 
+	Mientras swichtModificar = Falso Hacer
+		// Se solicita al usuario que ingrese un DNI
+		Limpiar Pantalla;
+		Escribir "Ingrese un DNI: " Sin Saltar;
+		// Se almacena el dato ingresado en una variable (dni)
+		leer dni;
+		
+		// Se inicializa la variable (paciente) en cero
+		paciente <- 0;
+		// Itera por la séptima columna DNI buscando coincidencias
+		Para i <- 0 Hasta 998 Hacer
+			// Si el dni ingresado covertido a texto es igual al DNI almacenado en la fila i
+			Si datosPacientes[i,6] = ConvertirATexto(dni) Entonces
+				// Se guarda el índice de la fila del paciente coincidente
+				paciente <- i;
+				//  Se cambia el swicht a Verdadero, para salir del ciclo Mientras
+				swichtModificar <- Verdadero;
+				
+				// Se muestran los datos del paciente y se pude confirmación para modificarlos al usuario
+				Limpiar Pantalla;
+				Escribir "";
+				Escribir "";
+				Escribir "";
+				Escribir "                         ID: 00" , (paciente + 1);
+				Escribir "                         Nombre: " ,datosPacientes[paciente,1];
+				Escribir "                         Apellido: " ,datosPacientes[paciente,2];
+				Escribir "                         DNI: " ,datosPacientes[paciente,6];
+				Escribir "                         Edad: " ,datosPacientes[paciente,3];
+				Escribir "                         Tipo de sangre: " ,datosPacientes[paciente,4];
+				Escribir "                         Especialidad requerida: " ,datosPacientes[paciente,5];
+				Escribir "";
+				Escribir "                          Confirme para reingresar los datos del paciente: ";
+				Escribir "                         1) Modificar";
+				Escribir "                         2) Volver al menú principal";
+				Escribir "                         Ingrese una opción: " Sin Saltar;
+				Leer num_1;
+				
+				// Con este ciclo mientras se verifica que el usuario ingrese una opción válida
+				Mientras  num_1 <> 1 Y num_1 <> 2 Hacer
+					Limpiar Pantalla;
+					Escribir "";
+					Escribir "";
+					Escribir "";
+					Escribir "                         Ingrese una opcion correcta";
+					Escribir "                         1) Volver al menu: " Sin Saltar;
+					
+					Leer num_1;
+				FinMientras
+				
+				Limpiar Pantalla;
+				// Si el usuario confirma la modificación
+				Si num_1 = 1 Entonces
+					// Se llama al subproceso ingresar, para sobreescribir los datos viejos por los nuevos
+					ingresar(datosPacientes,paciente);
+					// Se informa al usuario que el paciente fue modificado correctamente
+					Limpiar Pantalla;
+					Escribir"";
+					Escribir"";
+					Escribir"";
+					Escribir"                    Los datos del paciente fueron modificados exitosamente.  ";
+					Escribir"";
+					Escribir"                           1) Volver al menú: " Sin Saltar;
+					Leer num_2;
+					
+					// Si el usuario no ingresa la opcion correcta, se vuelve a solicitar que ingrese una opción
+					Mientras num_2 <> 1 Hacer
+						Limpiar Pantalla;
+						Escribir"";
+						Escribir"";
+						Escribir"";
+						Escribir"                    Los datos del paciente fueron modificados exitosamente.  ";
+						Escribir"";
+						Escribir"                           1) Volver al menú: " Sin Saltar;
+						Leer num_2;
+					FinMientras
+					
+					Limpiar Pantalla;
+				FinSi
+				
+			FinSi
+		FinPara
+		
+		// Si no se encontro ninguna coincidencia
+		Si swichtModificar = Falso Entonces
+			// Se le pregunta la usuario si desea hacer otra busqueda o volver al menú principal
+			Limpiar Pantalla;
+			Escribir "No se encontró ningún paciente que concuerde con los datos ingresados";
+			Escribir "";
+			Escribir "    1) Buscar paciente";
+			Escribir "    2) Volver al menu";
+			Escribir "    Ingrese una opcion: " Sin Saltar;
+			Leer num_3;
+			Si num_3 = 2 Entonces
+				swichtModificar <- Verdadero;
+			FinSi
+		FinSi
+		Limpiar Pantalla;
+	FinMientras
 	
 FinSubProceso
 
